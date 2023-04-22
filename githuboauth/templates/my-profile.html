@@ -1,0 +1,16 @@
+
+
+<h1>This is my profile</h1>
+
+<a href="{% url 'home' %}">Home</a>
+<br>
+<a href="{% url 'account_logout' %}">Log Out</a>
+<br>
+
+<div>
+  <form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    <button type="submit">Save changes</button>
+  </form>
+</div>

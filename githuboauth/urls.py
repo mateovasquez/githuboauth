@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from githuboauth.views import HomeView
+from githuboauth.views import HomeView, MyProfileView
 
 
 urlpatterns = [
-    path('', HomeView),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    
+    path('', HomeView, name="home"),
+    path('my-profile', MyProfileView, name='my_profile'),
 ]

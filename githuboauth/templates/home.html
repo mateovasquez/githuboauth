@@ -3,7 +3,11 @@
 {% if request.user.is_authenticated %}
   <h1>You are logged in as {{request.user.first_name}} {{request.user.last_name}}</h1>
   <h2>{{request.user.email}}</h2>
+  <a href="{% url 'my_profile' %}">My profile</a>
+  <br>
   <a href="{% url 'account_logout' %}">Log Out</a>
+
+
 {% else %}
   <a href="{% provider_login_url 'github' %}">Log in with Github</a>
 {% endif %}
