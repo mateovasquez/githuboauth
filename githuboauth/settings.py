@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-4y_9^s0hi_*lut8ji%h$r#a1ptp2mfsf6g5nm44glosh_d144)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SITE_ID = 1
+
 ALLOWED_HOSTS = []
 
 
@@ -37,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +73,21 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': '12ee5972ff5dd562b425',
+            'secret': '12218bff21594c5a1742804e4a9db68113601368',
+            'key': ''
+        },
+    }
+}
 
 WSGI_APPLICATION = 'githuboauth.wsgi.application'
 
