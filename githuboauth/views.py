@@ -1,12 +1,14 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from githuboauth.forms import UserInfoForm
 
-
+@login_required
 def HomeView(request):
   return render(request, 'home.html')
 
+@login_required
 def MyProfileView(request):
   if request.method == 'POST':
     user_form = UserInfoForm(request.POST, instance=request.user)

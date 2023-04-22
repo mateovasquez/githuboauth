@@ -1,6 +1,15 @@
 
-
 <h1>This is my profile</h1>
+
+<div>
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+</div>
 
 <a href="{% url 'home' %}">Home</a>
 <br>
