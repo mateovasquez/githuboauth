@@ -53,9 +53,9 @@ class TestGetPostUser(TestCase):
 
 @pytest.mark.django_db
 class TestGetProfile(TestCase):
-  profile_url = reverse('profile_detail')
+  profile_detail_url = reverse('profile_detail')
 
-  def test_get_user_info(self):
+  def test_get_profile_info(self):
     user = User.objects.create()
     profile = Profile.objects.create(
       user=user,
@@ -66,8 +66,7 @@ class TestGetProfile(TestCase):
     )
 
     self.client.force_login(user=user)
-    response = self.client.get(self.profile_url)
-
+    response = self.client.get(self.profile_detail_url)
     response_content = str(response.content, encoding='utf8')
 
     birthday_date = datetime.strptime(profile.birth_date, '%Y-%m-%d')
@@ -76,5 +75,74 @@ class TestGetProfile(TestCase):
     assert profile.phone_number in response_content
     assert profile.address in response_content
     assert profile.location in response_content
+
+    profile.delete()
+    user.delete()
+
+@pytest.mark.django_db
+class TestCreateUpdateProfile(TestCase):
+  profile_edit_url = reverse('profile_edit')
+
+  def test_update_profile_info(self):
+    user = User.objects.create()
+    profile = Profile.objects.create(user=user)
+    body = {
+      'phone_number': '666666666', 
+      'address': 'fake street 123', 
+      'location': 'somewhere', 
+      'birth_date': '2023-04-23', 
+    }
+
+    self.client.force_login(user=user)
+    self.client.post(self.profile_edit_url, body)
+
+    profile.refresh_from_db()
+    assert profile.phone_number in body['phone_number']
+    assert profile.address in body['address']
+    assert profile.location in body['location']
+    assert str(profile.birth_date) in body['birth_date']
+
+    profile.delete()
+    user.delete()
+
+  def test_create_profile_info(self):
+    user = User.objects.create()
+    body = {
+      'phone_number': '666666666', 
+      'address': 'fake street 123', 
+      'location': 'somewhere', 
+      'birth_date': '2023-04-23', 
+    }
+
+    assert hasattr(user, 'profile') == False
+
+    self.client.force_login(user=user)
+    self.client.post(self.profile_edit_url, body)
+
+    user.refresh_from_db()
+    assert hasattr(user, 'profile') == True
+    assert user.profile.phone_number in body['phone_number']
+    assert user.profile.address in body['address']
+    assert user.profile.location in body['location']
+    assert str(user.profile.birth_date) in body['birth_date']
+
+    user.profile.delete()
+    user.delete()
+
+@pytest.mark.django_db
+class TestDeleteProfile(TestCase):
+  profile_delete_url = reverse('profile_delete')
+
+  def test_update_profile_info(self):
+    user = User.objects.create()
+    profile = Profile.objects.create(user=user)
+
+    assert hasattr(user, 'profile') == True
+
+    self.client.force_login(user=user)
+    self.client.post(self.profile_delete_url)
+
+    user.refresh_from_db()
+    assert hasattr(user, 'profile') == False
 
     user.delete()
