@@ -4,14 +4,7 @@
 {% include "messages-section.html" %}
 
 <div>
-  <form
-    method="post"
-    {% if profile %}
-      action="/profile-update"
-    {% else %}
-      action="/profile-create"
-    {% endif %}
-  >
+  <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save changes</button>

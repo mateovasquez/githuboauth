@@ -6,11 +6,4 @@
         {% endfor %}
     </ul>
   {% endif %}
-  {% if form.errors %}
-    <ul class="errors">
-      {% for error in errors %}
-      <li  {% if error.tags %} class=" {{ error.tags }} " {% endif %}> {{ error }} </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
 </div>

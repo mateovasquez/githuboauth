@@ -2,8 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from user_profile.forms import ProfileCreateForm, ProfileEditForm, UserInfoForm
-from user_profile.models import Profile
+from user_profile.forms import ProfileCreateUpdateForm, UserInfoForm
 
 # Create your views here.
 
@@ -34,55 +33,41 @@ def profile_detail_view(request):
     'profile': profile,
   })
 
-@login_required
-def profile_edit_view(request):
-  profile = getattr(request.user, "profile", None)
-  return render(request, 'profile-detail.html', {
-    'profile': profile,
-  })
-
 
 @login_required
 def profile_edit_view(request):
-  context = {}
   profile = getattr(request.user, "profile", None)
-  if profile:
-    form = ProfileEditForm(instance=profile)
+  if request.method == 'POST':
+    return create_update_profile(request, profile)
   else:
-    form = ProfileCreateForm(instance=profile)
-  context['profile'] = profile
-  context['form'] = form
+    return show_profile(request, profile)
+  
+
+def show_profile(request, profile=None):
+  form = ProfileCreateUpdateForm(instance=profile)
+  context = {'form': form}
   return render(request, "profile-edit.html", context)
 
-def profile_update(request):
-  profile = getattr(request.user, "profile", None)
-  form = ProfileEditForm(request.POST, instance=profile)
 
+def create_update_profile(request, profile=None):
+  form = ProfileCreateUpdateForm(request.POST, instance=profile)
   if form.is_valid():
+    if not profile:
+      form.instance.user = request.user
     form.save()
     messages.success(request, ('Your profile was successfully updated!'))
     return redirect('profile_detail')
   else:
     messages.error(request, ('Please correct the error below.'))
-    context = {
-      'profile': profile,
-      'form': form,
-    }
+    context = {'form': form}
     return render(request, "profile-edit.html", context)
   
-def profile_create(request):
+def profile_delete_view(request):
   profile = getattr(request.user, "profile", None)
-  form = ProfileCreateForm(request.POST, instance=profile)
-
-  if form.is_valid():
-    form.instance.user = request.user
-    form.save()
-    messages.success(request, ('Your profile was successfully updated!'))
+  if request.method == 'POST':
+    profile.delete()
+    messages.success(request, ('Your profile was successfully deleted!'))
     return redirect('profile_detail')
   else:
-    messages.error(request, ('Please correct the error below.'))
-    context = {
-      'profile': profile,
-      'form': form,
-    }
-    return render(request, "profile-edit.html", context)
+    context = {'profile': profile}
+    return render(request, "profile-delete.html", context)

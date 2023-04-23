@@ -22,8 +22,7 @@ from user_profile.views import (
     user_detail_view,
     profile_edit_view,
     profile_detail_view,
-    profile_update,
-    profile_create,
+    profile_delete_view,
 )
 
 
@@ -35,7 +34,5 @@ urlpatterns = [
     path('user', user_detail_view, name='user_detail'),
     path('profile', profile_detail_view, name='profile_detail'),
     path('profile-edit', profile_edit_view, name='profile_edit'),
-
-    path('profile-update', profile_update),
-    path('profile-create', profile_create), 
+    path('profile-delete', profile_delete_view, name='profile_delete'),
 ]

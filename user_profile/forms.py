@@ -22,20 +22,7 @@ class UserInfoForm(forms.ModelForm):
     fields = ['username', 'first_name', 'last_name']
 
 
-class ProfileEditForm(forms.ModelForm):
-  phone_number = forms.CharField(
-    max_length=9,
-    min_length=9,
-  )
-  birth_date = forms.CharField(
-    widget=forms.SelectDateWidget()
-  )
-
-  class Meta:
-    model = Profile
-    fields = ['phone_number', 'location', 'address', 'birth_date']
-
-class ProfileCreateForm(ProfileEditForm):
+class ProfileCreateUpdateForm(forms.ModelForm):
   phone_number = forms.CharField(
     required=True,
     max_length=9,
@@ -51,3 +38,6 @@ class ProfileCreateForm(ProfileEditForm):
     required=True,
     widget=forms.SelectDateWidget()
   )
+  class Meta:
+    model = Profile
+    fields = ['phone_number', 'location', 'address', 'birth_date']
