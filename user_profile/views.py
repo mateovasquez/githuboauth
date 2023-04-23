@@ -61,7 +61,8 @@ def create_update_profile(request, profile=None):
     messages.error(request, ('Please correct the error below.'))
     context = {'form': form}
     return render(request, "profile-edit.html", context)
-  
+
+@login_required
 def profile_delete_view(request):
   profile = getattr(request.user, "profile", None)
   if request.method == 'POST':
