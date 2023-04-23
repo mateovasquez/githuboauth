@@ -1,12 +1,11 @@
-
-<h1>User Settings</h1>
+<h1>Profile Edit</h1>
 
 <div>
   {% if messages %}
     <ul class="messages">
-        {% for message in messages %}
-        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-        {% endfor %}
+      {% for message in messages %}
+      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+      {% endfor %}
     </ul>
   {% endif %}
   {% if form.errors %}
@@ -22,11 +21,20 @@
 <br>
 <a href="{% url 'account_logout' %}">Log Out</a>
 <br>
+<a href="{% url 'profile_detail' %}">Back</a>
+<br>
 
 <div>
-  <form method="post">
+  <form
+    method="post"
+    {% if profile %}
+      action="/profile-update"
+    {% else %}
+      action="/profile-create"
+    {% endif %}
+  >
     {% csrf_token %}
-    {{ user_form.as_p }}
+    {{ form.as_p }}
     <button type="submit">Save changes</button>
   </form>
 </div>

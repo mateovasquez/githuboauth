@@ -1,0 +1,55 @@
+
+<h1>This is my profile</h1>
+
+<div>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% if form.errors %}
+    <ul class="errors">
+      {% for error in errors %}
+      <li  {% if error.tags %} class=" {{ error.tags }} " {% endif %}> {{ error }} </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+<a href="{% url 'home' %}">Home</a>
+<br>
+<a href="{% url 'account_logout' %}">Log Out</a>
+<br>
+
+{% if profile %}
+  <div>
+    <div>
+      <b>Phone number:</b>
+      {{ profile.phone_number }}
+    </div>
+    <div>
+      <b>Location:</b>
+      {{ profile.location }}
+    </div>
+    <div>
+      <b>Address:</b>
+      {{ profile.address }}
+    </div>
+    <div>
+      <b>Birth date:</b>
+      {{ profile.birth_date }}
+    </div>
+  </div>
+  <a href="{% url 'profile_edit' %}">Edit profile</a>
+{% else %}
+  <div>
+    <h4>
+      You don't have any profile.
+      <br>
+      <a href="{% url 'profile_edit' %}">Create profile</a>
+  </h4>
+  </div>
+{% endif %}
+
