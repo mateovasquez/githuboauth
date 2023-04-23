@@ -1,27 +1,10 @@
 
 <h1>User Settings</h1>
 
-<div>
-  {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-        {% endfor %}
-    </ul>
-  {% endif %}
-  {% if form.errors %}
-    <ul class="errors">
-      {% for error in errors %}
-      <li  {% if error.tags %} class=" {{ error.tags }} " {% endif %}> {{ error }} </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-</div>
+{% include "messages-section.html" %} 
 
-<a href="{% url 'home' %}">Home</a>
-<br>
-<a href="{% url 'account_logout' %}">Log Out</a>
-<br>
+{% include "navigation.html" %}
+
 
 <div>
   <form method="post">

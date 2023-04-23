@@ -1,23 +1,5 @@
-{% load socialaccount %}
+<h1>You are logged in as {{request.user.first_name}} {{request.user.last_name}}</h1>
 
-{% if request.user.is_authenticated %}
-  <h1>You are logged in as {{request.user.first_name}} {{request.user.last_name}}</h1>
+{% include "messages-section.html" %} 
 
-  <div>
-    {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-          {% endfor %}
-      </ul>
-    {% endif %}
-  </div>
-
-  <a href="{% url 'user_detail' %}">My profile</a>
-  <br>
-  <a href="{% url 'account_logout' %}">Log Out</a>
-
-
-{% else %}
-  <a href="{% provider_login_url 'github' %}">Log in with Github</a>
-{% endif %}
+{% include "navigation.html" %}
