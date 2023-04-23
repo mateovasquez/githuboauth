@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 @pytest.mark.django_db
 class TestLoginRequired:
   home_url = reverse("home")
-  profile_url = reverse("my_profile")
+  profile_url = reverse("user_detail")
 
   def test_pages_access_logged_in(self, client):
     user = User.objects.create()
@@ -22,7 +22,7 @@ class TestLoginRequired:
   def test_pages_access_logged_out(self, client):
     redirect_status_code = 302
     login_redirect_home_url = '/accounts/login/?next=/'
-    login_redirect_profile_url = '/accounts/login/?next=/my-profile'
+    login_redirect_profile_url = '/accounts/login/?next=/user'
 
     response_home = client.get(self.home_url)
     assert response_home.url == login_redirect_home_url
@@ -35,7 +35,7 @@ class TestLoginRequired:
 
 @pytest.mark.django_db
 class TestGetUserInfo:
-  profile_url = reverse("my_profile")
+  profile_url = reverse("user_detail")
 
   def test_user_info(self, client):
     user = User.objects.create(

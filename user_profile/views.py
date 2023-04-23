@@ -7,13 +7,13 @@ from user_profile.forms import UserInfoForm
 # Create your views here.
 
 @login_required
-def MyProfileView(request):
+def user_detail_view(request):
   if request.method == 'POST':
     user_form = UserInfoForm(request.POST, instance=request.user)
     return save_user_info(request, user_form)
   else:
     user_form = UserInfoForm(instance=request.user)
-  return render(request, 'my-profile.html', {
+  return render(request, 'user-detail.html', {
     'user_form': user_form,
   })
 
