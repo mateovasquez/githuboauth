@@ -15,7 +15,7 @@ class TestLoginRequired:
     assert b'You are logged in' in response_home
 
     response_profile = client.get(self.profile_url).content
-    assert b'This is my profile' in response_profile
+    assert b'User Settings' in response_profile
 
     user.delete()
 
