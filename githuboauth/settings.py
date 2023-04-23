@@ -64,7 +64,10 @@ ROOT_URLCONF = 'githuboauth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'githuboauth/templates'],
+        'DIRS': [
+            BASE_DIR / 'githuboauth/templates',
+            BASE_DIR / 'user_profile/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

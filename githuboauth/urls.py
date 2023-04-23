@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from githuboauth.views import HomeView, MyProfileView
+from githuboauth.views import HomeView
+from user_profile.views import MyProfileView
 
 
 urlpatterns = [
