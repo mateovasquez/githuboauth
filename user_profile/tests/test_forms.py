@@ -3,7 +3,7 @@ from user_profile.forms import ProfileCreateUpdateForm, UserInfoForm
 
 @pytest.mark.django_db
 class TestUserForm():
-  def test_form_is_valid_all_data(self):
+  def test_form_is_valid_all_fields(self):
     form_data = {
       "username": "wolfandbadger",
       "first_name": "wolf",
@@ -12,7 +12,7 @@ class TestUserForm():
     form = UserInfoForm(data=form_data)
     assert form.is_valid() == True
   
-  def test_form_is_valid_some_data(self):
+  def test_form_is_valid_some_fields(self):
     form_data = {"first_name": "wolf"}
     form = UserInfoForm(data=form_data)
     assert form.is_valid() == True
