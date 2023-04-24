@@ -71,6 +71,7 @@ class TestGetProfile(TestCase):
 
     birthday_date = datetime.strptime(profile.birth_date, '%Y-%m-%d')
     birthday_date = birthday_date.strftime('%B %d, %Y')
+    assert response.status_code == 200
     assert birthday_date in response_content
     assert profile.phone_number in response_content
     assert profile.address in response_content
@@ -87,16 +88,17 @@ class TestCreateUpdateProfile(TestCase):
     user = User.objects.create()
     profile = Profile.objects.create(user=user)
     body = {
-      'phone_number': '666666666', 
+      'phone_number': '+666666666', 
       'address': 'fake street 123', 
       'location': 'somewhere', 
       'birth_date': '2023-04-23', 
     }
 
     self.client.force_login(user=user)
-    self.client.post(self.profile_edit_url, body)
+    response = self.client.post(self.profile_edit_url, body)
 
     profile.refresh_from_db()
+    assert response.status_code == 302
     assert profile.phone_number in body['phone_number']
     assert profile.address in body['address']
     assert profile.location in body['location']
@@ -108,7 +110,7 @@ class TestCreateUpdateProfile(TestCase):
   def test_create_profile_info(self):
     user = User.objects.create()
     body = {
-      'phone_number': '666666666', 
+      'phone_number': '+34666666666', 
       'address': 'fake street 123', 
       'location': 'somewhere', 
       'birth_date': '2023-04-23', 
@@ -117,9 +119,9 @@ class TestCreateUpdateProfile(TestCase):
     assert hasattr(user, 'profile') == False
 
     self.client.force_login(user=user)
-    self.client.post(self.profile_edit_url, body)
-
+    response = self.client.post(self.profile_edit_url, body)
     user.refresh_from_db()
+    assert response.status_code == 302
     assert hasattr(user, 'profile') == True
     assert user.profile.phone_number in body['phone_number']
     assert user.profile.address in body['address']
@@ -140,7 +142,8 @@ class TestDeleteProfile(TestCase):
     assert hasattr(user, 'profile') == True
 
     self.client.force_login(user=user)
-    self.client.post(self.profile_delete_url)
+    response = self.client.post(self.profile_delete_url)
+    assert response.status_code == 302
 
     user.refresh_from_db()
     assert hasattr(user, 'profile') == False

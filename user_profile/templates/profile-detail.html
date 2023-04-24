@@ -4,7 +4,7 @@
 {% include "messages-section.html" %} 
 
 {% if profile %}
-  <div>
+  <div style="margin-bottom: 20px;">
     <div>
       <b>Phone number:</b>
       {{ profile.phone_number }}
@@ -23,6 +23,7 @@
     </div>
   </div>
   <a href="{% url 'profile_edit' %}">Edit profile</a>
+  <br>
   <a href="{% url 'profile_delete' %}">Delete profile</a>
 {% else %}
   <div>

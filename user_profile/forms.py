@@ -5,14 +5,17 @@ from user_profile.models import Profile
 
 class UserInfoForm(forms.ModelForm):
   username = forms.CharField(
+    required=False,
     max_length=100,
     widget=forms.TextInput()
   )
   first_name = forms.CharField(
+    required=False,
     max_length=100,
     widget=forms.TextInput()
   )
   last_name = forms.CharField(
+    required=False,
     max_length=100,
     widget=forms.TextInput()
   )
@@ -25,8 +28,6 @@ class UserInfoForm(forms.ModelForm):
 class ProfileCreateUpdateForm(forms.ModelForm):
   phone_number = forms.CharField(
     required=True,
-    max_length=9,
-    min_length=9,
   )
   location = forms.CharField(
     required=True
